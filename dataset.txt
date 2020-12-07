@@ -1,0 +1,16 @@
+I;qu'elle est le prochaine rendez-vous disponible
+R;je reserve un rendez-vous
+R;je souhaite reserver un rendez-vous
+R;je veux reserver un rendez-vous
+R;je desir un rendez-vous
+R;pourrais je avoir un rendez-vous
+I;est ce qu'un rendez-vous est disponible
+I;je souhaite une information
+I;y a t il encore un rendez-vous de disponible
+I;qu'elle est le prochain creneau de libre
+I;qu'elle est le prochain creneau de disponible
+R;je souhaite faire une reservation
+R;je souhaite un rendez-vous
+R;est il possible d'avoir un rendez-vous
+I;qu'elles sont les disponibilites
+I;je souhaite avoir une information
