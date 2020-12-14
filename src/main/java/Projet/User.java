@@ -46,17 +46,19 @@ public class User {
             
             System.out.println(cl);
             response = "Classe : " + this.classes[cl];
-            if (cl == 0)
-            {
-                response += " => Le prochain creneau disponible est : ";
-                response += Serveur.cal.prochain_creneau();
-            }
-            else if (cl == 1)
-            {
-                response += " => Vous avez reserve le creneau : ";
-                response += Serveur.cal.prochain_creneau();
-                response += " Etat : ";
-                response += Serveur.cal.reservation_creneau(this.Name);
+            synchronized(this){
+                if (cl == 0)
+                {
+                    response += " => Le prochain creneau disponible est : ";
+                    response += Serveur.cal.prochain_creneau();
+                }
+                else if (cl == 1)
+                {
+                    response += " => Vous avez reserve le creneau : ";
+                    response += Serveur.cal.prochain_creneau();
+                    response += " Etat : ";
+                    response += Serveur.cal.reservation_creneau(this.Name);
+                }
             }
         }
         return response;
