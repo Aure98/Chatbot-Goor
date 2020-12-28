@@ -26,6 +26,105 @@ public class my_KNN {
     public my_KNN() {
     }
     
+    /////////// Fonctions utilitaires //////////
+    //Calcul de la distance
+    private double dist (double [] A, double [] B){
+        double res = 0;
+        for (int i=0; i<A.length;i++){
+            res += Math.pow(A[i] - B[i], 2);
+        }
+        return Math.sqrt(res);
+    }
+    
+    //Retourne indice du min
+    private int ArgMin(double [] A){
+        int res =0;
+        for (int i=1; i<A.length;i++){
+            if (A[res]>A[i]){
+                res = i;
+            }
+        }
+        return res;
+    }
+    
+    //Retourne l'indice du max
+    private int ArgMax(int [] A){
+        int res =0;
+        for (int i=1; i<A.length;i++){
+            if (A[res]<A[i]){
+                res = i;
+            }
+        }
+        return res;
+    }
+    
+    //Retourne les k indices min
+    public int[] KArgMin(double [] A, int k){
+        int[] res = new int [k];
+        for (int i=0; i<k;i++){
+            res[i] = ArgMin(A);
+            A[res[i]] = 100000;
+        }
+        return res;
+    }
+    
+    ////////// Fonction principale /////////
+    //Evaluation avec uniquement le plus proche voisin
+    public int eval(double [] resultat)
+    {
+        double [] Distance = new double [this.nb_line];
+        for (int i=0; i<this.nb_line;i++){
+            Distance[i] = dist(dataset[i], resultat);
+        }
+        
+        int res = 2;
+        int a = ArgMin(Distance);
+        
+        String cat = categories[a];
+        if (cat.equals("I")){
+            res = 0;
+        }else if (cat.equals("R")){
+            res = 1;
+        }else if (cat.equals("N")){
+            res = 2;
+        }
+        
+        if (Distance[a]>15){
+            res = 2;
+        }
+        return res;
+    }
+    
+    //Evaluation avec les k plus proches voisins
+    public int eval(double [] resultat, int k)
+    {
+        double [] Distance = new double [this.nb_line];
+        for (int i=0; i<this.nb_line;i++){
+            Distance[i] = dist(dataset[i], resultat);
+        }
+        
+        int res = 3;
+        int[] a = KArgMin(Distance.clone(), k);
+        
+        int cat[] = {0, 0, 0};
+        for (int i=0;i<k;i++){
+            if (categories[a[i]].equals("I")){
+                cat[0]++;
+            }else if (categories[a[i]].equals("R")){
+                cat[1]++;
+            }else if (categories[a[i]].equals("N")){
+                cat[2]++;
+            }
+        }
+        
+        if (Distance[a[0]] >15)
+            return 2;
+        else{
+            return ArgMax(cat);
+        }
+    }
+    
+     //Restoration d'un entrainement
     public void file_reader() {
         String line;
         
@@ -58,103 +157,14 @@ public class my_KNN {
         }
     }
     
-    private double dist (double [] A, double [] B){
-        double res = 0;
-        for (int i=0; i<A.length;i++){
-            res += Math.pow(A[i] - B[i], 2);
-        }
-        return Math.sqrt(res);
-    }
-    
-    private int ArgMin(double [] A){
-        int res =0;
-        for (int i=1; i<A.length;i++){
-            if (A[res]>A[i]){
-                res = i;
-            }
-        }
-        return res;
-    }
-    
-    private int ArgMax(int [] A){
-        int res =0;
-        for (int i=1; i<A.length;i++){
-            if (A[res]<A[i]){
-                res = i;
-            }
-        }
-        return res;
-    }
-    
-    private int[] KArgMin(double [] A, int k){
-        int[] res = new int [k];
-        for (int i=0; i<k;i++){
-            res[i] = ArgMin(A);
-            A[i] = 100000;
-        }
-        return res;
-    }
-    
-    public int eval(double [] resultat)
-    {
-        double [] Distance = new double [this.nb_line];
-        for (int i=0; i<this.nb_line;i++){
-            Distance[i] = dist(dataset[i], resultat);
-        }
-        
-        int res = 3;
-        int a = ArgMin(Distance);
-        
-        System.out.print("La distance min avec l'element ");
-        System.out.print(a);
-        System.out.print(" est de ");
-        System.out.println(Distance[a]);
-        
-        String cat = categories[a];
-        if (cat.equals("I")){
-            res = 0;
-        }else if (cat.equals("R")){
-            res = 1;
-        }else if (cat.equals("N")){
-            res = 2;
-        }
-        return res;
-    }
-    
-    public int eval2(double [] resultat, int k)
-    {
-        double [] Distance = new double [this.nb_line];
-        for (int i=0; i<this.nb_line;i++){
-            Distance[i] = dist(dataset[i], resultat);
-        }
-        
-        int res = 3;
-        int[] a = KArgMin(Distance, k);
-        
-        System.out.print("La distance min avec l'element ");
-        System.out.print(a);
-        System.out.print(" est de ");
-        System.out.println(Distance[a[0]]);
-        
-        int cat[] = {0, 0, 0};
-        for (int i=0;i<k;i++){
-            if (categories[a[i]].equals("I")){
-                cat[0]++;
-            }else if (categories[a[i]].equals("R")){
-                cat[1]++;
-            }else if (categories[a[i]].equals("N")){
-                cat[2]++;
-            }
-        }
-        return ArgMax(cat);
-    }
-    
+    //Nouvel entrainement
     public void train(){
         String line;
         int index_line = 0;
         String [] classes = new String [this.nb_line];
         String [] phrases = new String [this.nb_line];
         
+        //Recuperation du dataset
         try {
             File myObj = new File("dataset.txt");
             Scanner myReader = new Scanner(myObj);
@@ -173,12 +183,13 @@ public class my_KNN {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-            
-            
+        
+        //Init word2vec
         my_word2vec transfo = new my_word2vec();
         transfo.file_reader();
         double [] res;
 
+        //Ecriture du fichier + application du word2vec a tout le dataset
         try {
             FileWriter myWriter = new FileWriter("ads2.txt");
             myWriter.write("@relation ads\n");
@@ -212,6 +223,7 @@ public class my_KNN {
         }
     }
     
+    //Exemples
     public static void main(String[] args) {
         my_KNN a = new my_KNN();
         //a.train();
@@ -220,11 +232,20 @@ public class my_KNN {
         my_word2vec transfo = new my_word2vec();
         transfo.file_reader();
         double [] res = transfo.word2vec("je souhaite peut-etre reserver");
-        System.out.println(a.eval(res));
+        System.out.println(a.eval(res, 6));
+        res = transfo.word2vec("puis je avoir un rendez-vous");
+        System.out.println(a.eval(res, 6));
+        res = transfo.word2vec("puis je avoir une reservation");
+        System.out.println(a.eval(res, 6));
+        res = transfo.word2vec("je souhaite recevoire une info");
+        System.out.println(a.eval(res, 6));
+        res = transfo.word2vec("je souhaite avoir un info");
+        System.out.println(a.eval(res, 6));
+        res = transfo.word2vec("souhaite info");
+        System.out.println(a.eval(res, 6));
         res = transfo.word2vec("j'ai faim");
-        System.out.println(a.eval(res));
-        res = transfo.word2vec("je regarde la television");
-        System.out.println(a.eval(res));
+        System.out.println(a.eval(res, 6));
     }
-    
 }
+
+//0:Info, 1:Reservation, 2:Neutre

@@ -18,6 +18,7 @@ public class my_word2vec {
     private String [] mots = new String [155561];
     private double [][] coordonnees = new double[155561][200];
     
+    //Lecture du Dico
     public void file_reader() {
         String line;
         

@@ -27,11 +27,13 @@ public class Serveur extends Thread{
     private Socket socketClient;
     protected static calendrier cal = new calendrier();
     protected static my_word2vec transfo = new my_word2vec();
+    protected static my_KNN KNN = new my_KNN();
     
     //Constructeur
     public Serveur(Socket sock) {
         this.socketClient = sock;
         this.transfo.file_reader();
+        this.KNN.file_reader();
     }
     
     //Thread

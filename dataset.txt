@@ -1,3 +1,33 @@
+R;reserver
+R;reservation
+R;je veux faire une réservation
+R;location d'une machine
+R;louer
+R;je prends ce créneau
+R;je reserve une machine 
+R;enregistrer un créneau horaire
+R;retenir une date
+R;je retiens mon choix
+R;je sauvegarde ma réservation
+R;prendre un rendez-vous
+R;passer commande
+I;info
+I;information
+I;informer
+I;demander un renseignement
+I;renseignez moi
+I;je veux une information
+I;informez moi du prix
+I;disponibilités
+I;la machine est elle disponible
+I;quels sont les tarifs
+I;combien cela coûte
+I;demander un conseil
+I;où se trouve la machine
+I;quand puis je réserver
+I;comment obtenir une machine
+N;chercher sa commande
+N;aller voir la machine
 I;qu'elle est le prochaine rendez-vous disponible
 R;je reserve un rendez-vous
 R;je souhaite reserver un rendez-vous

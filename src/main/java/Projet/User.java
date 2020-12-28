@@ -17,7 +17,7 @@ public class User {
     
     private String Name;
     
-    public String [] classes = {"Information", "Reservation"};
+    public String [] classes = {"Information", "Reservation", "Neutre"};
 
     public User() {
     }
@@ -29,21 +29,27 @@ public class User {
         String response;
         int cl = 0;
         
+        //Detection Debut (nom) et FIN
         if (message.length()>4 && message.substring(0, 4).equals("Nom:")){
             this.Name = message.substring(4);
             response = "Bienvenue " + this.Name;
         }else if(message.equals("FIN"))
         {
             response = "Au revoir " + this.Name;
+            
+        //Si pas debut ni fin alors on repond
         }else{
+            //Vord2vec du message
             double [] res = Serveur.transfo.word2vec(message);
             
+            //KNN
             try {
-                cl = (int)KNN1.eval(res);
+                cl = Serveur.KNN.eval(res);
             } catch (Exception ex) {
-                Logger.getLogger(KNN1.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("ERREUR User line 44");
             }
             
+            //Info/Reservation + Reponse
             System.out.println(cl);
             response = "Classe : " + this.classes[cl];
             synchronized(this){
@@ -58,6 +64,8 @@ public class User {
                     response += Serveur.cal.prochain_creneau();
                     response += " Etat : ";
                     response += Serveur.cal.reservation_creneau(this.Name);
+                }else{
+                    response += " => Desole je n'ai pas compris";
                 }
             }
         }
