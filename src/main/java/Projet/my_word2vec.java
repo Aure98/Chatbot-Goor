@@ -51,14 +51,18 @@ public class my_word2vec {
     }
     
     public double[] word2vec(String phrase){
-        //Suppression de majuscule
+        //Suppression des majuscules, virgules et des points
         char [] phrase_char = phrase.toCharArray();
         for (int i=0; i<phrase.length(); i++){
             if (phrase_char[i]>64 && phrase_char[i]<91){
                 phrase_char[i] = (char)((int)(phrase_char[i])+32);
             }
+            if (phrase_char[i] == 44 || phrase_char[i] == 46){
+                phrase_char[i] = (char) 0;
+            }
         }
         phrase = String.valueOf(phrase_char);
+        System.out.println(phrase);
         
         //Separation des mots
         String [] mots = phrase.split(" ");

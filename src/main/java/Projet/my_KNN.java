@@ -117,6 +117,13 @@ public class my_KNN {
             }
         }
         
+        System.out.print("cat: ");
+        System.out.print(cat[0]);
+        System.out.print(" ");
+        System.out.print(cat[1]);
+        System.out.print(" ");
+        System.out.println(cat[2]);
+        
         if (Distance[a[0]] >15)
             return 2;
         else{
@@ -228,23 +235,24 @@ public class my_KNN {
         my_KNN a = new my_KNN();
         //a.train();
         a.file_reader();
+        int k = 1;
         
         my_word2vec transfo = new my_word2vec();
         transfo.file_reader();
-        double [] res = transfo.word2vec("je souhaite peut-etre reserver");
-        System.out.println(a.eval(res, 6));
-        res = transfo.word2vec("puis je avoir un rendez-vous");
-        System.out.println(a.eval(res, 6));
+        double [] res = transfo.word2vec("je souhaite reserver");
+        System.out.println(a.eval(res, k));
+        res = transfo.word2vec("puis je reserver");
+        System.out.println(a.eval(res, k));
         res = transfo.word2vec("puis je avoir une reservation");
-        System.out.println(a.eval(res, 6));
+        System.out.println(a.eval(res, k));
         res = transfo.word2vec("je souhaite recevoire une info");
-        System.out.println(a.eval(res, 6));
-        res = transfo.word2vec("je souhaite avoir un info");
-        System.out.println(a.eval(res, 6));
+        System.out.println(a.eval(res, k));
+        res = transfo.word2vec("creneau libre");
+        System.out.println(a.eval(res, k));
         res = transfo.word2vec("souhaite info");
-        System.out.println(a.eval(res, 6));
+        System.out.println(a.eval(res, k));
         res = transfo.word2vec("j'ai faim");
-        System.out.println(a.eval(res, 6));
+        System.out.println(a.eval(res, k));
     }
 }
 

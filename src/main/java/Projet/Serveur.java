@@ -25,15 +25,16 @@ import java.util.logging.Logger;
 public class Serveur extends Thread{
     
     private Socket socketClient;
-    protected static calendrier cal = new calendrier();
-    protected static my_word2vec transfo = new my_word2vec();
-    protected static my_KNN KNN = new my_KNN();
+    protected static calendrier cal;
+    protected static my_word2vec transfo;
+    protected static my_KNN KNN;
     
     //Constructeur
-    public Serveur(Socket sock) {
+    public Serveur(Socket sock, my_word2vec transfo, my_KNN KNN, calendrier cal) {
         this.socketClient = sock;
-        this.transfo.file_reader();
-        this.KNN.file_reader();
+        this.transfo = transfo;
+        this.KNN = KNN;
+        this.cal = cal;
     }
     
     //Thread
@@ -61,18 +62,30 @@ public class Serveur extends Thread{
     }
     
     public static void main(String[] args){
+        //Creation des objets calendrier, word2vec et calendrier
+        calendrier cal = new calendrier();
+        my_word2vec transfo = new my_word2vec();
+        my_KNN KNN = new my_KNN();
+        
+        //Initialisation des objets word2vec et KNN
+        transfo.file_reader();
+        KNN.file_reader();
+        
+        //Reccuperation de l'IP et definition du port
         Inet4Address IP = (Inet4Address) Inet4Address.getLoopbackAddress();
         int port = 12800;
         
         try{
+            //Creation de serveur
             ServerSocket serv = new ServerSocket(port);
             
             System.out.println("Serveur IP : " + IP);
             System.out.println("Serveur port : " + port);
             
+            //Attente des clients
             while(true){
                 Socket socketClient = serv.accept();
-                Serveur T = new Serveur(socketClient);
+                Serveur T = new Serveur(socketClient, transfo, KNN, cal);
                 T.start();
             }
             

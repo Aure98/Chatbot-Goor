@@ -37,7 +37,7 @@ public class User {
         {
             response = "Au revoir " + this.Name;
             
-        //Si pas debut ni fin alors on repond
+        //Si pas debut ni fin alors on l'analyse
         }else{
             //Vord2vec du message
             double [] res = Serveur.transfo.word2vec(message);
