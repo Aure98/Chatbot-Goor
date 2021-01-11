@@ -23,8 +23,7 @@ import java.util.logging.Logger;
  * @author aurel
  */
 public class Client {
-    public static void go() throws IOException{
-        
+    public static void Client() throws IOException{        
         String IP = ConsoleFDB.entreeString("adresse IP du serveur : ");
         int port  = ConsoleFDB.entreeInt("port : ");
         String Nom = ConsoleFDB.entreeString("Nom : ");
@@ -60,6 +59,6 @@ public class Client {
     }
     
     public static void main(String[] args) throws IOException{
-        go();
+        Client();
     }
 }
