@@ -89,7 +89,7 @@ public class my_KNN {
             res = 2;
         }
         
-        if (Distance[a]>15){
+        if (Distance[a]>5){
             res = 2;
         }
         return res;
@@ -124,7 +124,7 @@ public class my_KNN {
         System.out.print(" ");
         System.out.println(cat[2]);
         
-        if (Distance[a[0]] >15)
+        if (Distance[a[0]] >5)
             return 2;
         else{
             return ArgMax(cat);
@@ -235,7 +235,7 @@ public class my_KNN {
         my_KNN a = new my_KNN();
         //a.train();
         a.file_reader();
-        int k = 1;
+        int k = 5;
         
         my_word2vec transfo = new my_word2vec();
         transfo.file_reader();
@@ -249,9 +249,11 @@ public class my_KNN {
         System.out.println(a.eval(res, k));
         res = transfo.word2vec("creneau libre");
         System.out.println(a.eval(res, k));
-        res = transfo.word2vec("souhaite info");
+        res = transfo.word2vec("y a-t-il encore des creneaux de disponible");
         System.out.println(a.eval(res, k));
         res = transfo.word2vec("j'ai faim");
+        System.out.println(a.eval(res, k));
+        res = transfo.word2vec("J'adore le big data");
         System.out.println(a.eval(res, k));
     }
 }

@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 
 public class my_word2vec {
-    private String [] mots = new String [155561];
+    private String [] dataset_mots = new String [155561];
     private double [][] coordonnees = new double[155561][200];
     
     //Lecture du Dico
@@ -32,7 +32,7 @@ public class my_word2vec {
                 line = myReader.nextLine();
                 
                 String [] line_tab = line.split(" ");
-                this.mots[index_line] = line_tab[0];
+                this.dataset_mots[index_line] = line_tab[0];
                 
                 for(int i=1; i<201; i++)
                 {
@@ -71,14 +71,19 @@ public class my_word2vec {
         
         //Recherche des mot du dico dans la phrase
         for(int i=0; i<mots.length; i++){
-            for(int j=0; j<this.mots.length; j++){
-                if(mots[i].equals(this.mots[j])){
+            for(int j=0; j<this.dataset_mots.length; j++){
+                if(mots[i].equals(this.dataset_mots[j])){
                     for (int k=0;k<200; k++)
                     {
                         res[k] += this.coordonnees[j][k];
                     }
                 }
             }
+        }
+        
+        for (int k=0;k<200; k++)
+        {
+            res[k] = res[k]/mots.length;
         }
         
         return(res);

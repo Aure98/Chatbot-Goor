@@ -41,7 +41,7 @@ public class KNN1 {
         return inputReader;
     }
     
-    public static double eval(double [] resultat) throws Exception{
+    public static int eval(double [] resultat) throws Exception{
         BufferedReader datafile = readDataFile("ads2.txt");
         
         Instances data = new Instances(datafile);
@@ -63,7 +63,7 @@ public class KNN1 {
         
         double class1 = ibk.classifyInstance(dataRaw);
         
-        return class1;
+        return (int)class1;
     }
     
     public static void train(){
@@ -138,17 +138,19 @@ public class KNN1 {
     }
     
     //Exemple
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         //train();
         
         my_word2vec transfo = new my_word2vec();
         transfo.file_reader();
-        double [] res = transfo.word2vec("je souhaite avoir une information");
+        double [] res = transfo.word2vec("J'adore le big data");
         
         try {
-            System.out.println((int)eval(res));
+            System.out.println(eval(res));
         } catch (Exception ex) {
             Logger.getLogger(KNN1.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }*/
+    }
 }
+
+//0:Info, 1:Reservation, 2:Neutre
